@@ -6,9 +6,12 @@
 // Множество - реализация через битовые поля
 
 #include "tset.h"
+#include <time>
 
 TSet::TSet(unsigned int mp) : BitField(mp), MaxPower(mp)
-{}
+{
+	createTime = time(NULL);
+}
 
 // конструктор копирования
 TSet::TSet(const TSet &s) : BitField(s.BitField), MaxPower(s.MaxPower)
@@ -45,6 +48,18 @@ void TSet::DelElem(const unsigned int Elem) // исключение элемен
 	if (Elem >= MaxPower || Elem < 0)
 		throw ERROR_SET_VALUE;
 	BitField.ClrBit(Elem);
+
+}
+void TSet::writeTime()
+{
+	unsigned int delta = time(NULL)-createTime;
+	if(MaxPower<delta)
+	{
+		MaxPower = delta;
+		BitField.resize(MaxPower);
+	}
+	
+	BitField.set(delta);
 
 }
 

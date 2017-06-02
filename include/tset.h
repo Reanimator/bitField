@@ -19,6 +19,7 @@ enum SET_ERRORS {
 class TSet
 {
 private:
+  unsigned int createTime;
   unsigned int MaxPower;       // максимальная мощность множества
   TBitField BitField; // битовое поле для хранения характеристического вектора
 public:
@@ -31,6 +32,7 @@ public:
   void InsElem(const unsigned int Elem);       // включить элемент в множество
   void DelElem(const unsigned int Elem);       // удалить элемент из множества
   bool IsMember(const unsigned int Elem) const; // проверить наличие элемента в множестве
+  void writeTime();
   // теоретико-множественные операции
   bool operator== (const TSet &s) const; // сравнение
   int operator!= (const TSet &s) const; // сравнение
