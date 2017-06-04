@@ -78,7 +78,7 @@ int TBitField::GetBit(const int n) const
 	if (n >= this->BitLen || n<0)
 		throw 2;
 	int index = GetMemIndex(n);
-	TELEM mask = this->pMem[index] >> (n/ (sizeof(TELEM) * 8));
+	TELEM mask = this->pMem[index] >> (n% (sizeof(TELEM) * 8));
 
     return mask&1;
 }
@@ -152,7 +152,7 @@ TBitField& TBitField::operator&=(const TBitField &bf)
 	return *this;
 }
 
-TBitField TBitField::operator~(void) 
+TBitField TBitField::operator~(void)
 {
 	TBitField temp(this->BitLen);
 	TELEM temp_tel = temp.pMem[MemLen];
@@ -160,8 +160,25 @@ TBitField TBitField::operator~(void)
 	{
 		temp.pMem[i] = ~this->pMem[i];
 	}
-	
+
 	return temp;
+}
+
+TBitField& TBitField::resize(int newSize)
+{
+	int newmemLen = ((newSize - 1) / (sizeof(TELEM) * 8)) + 1;
+	TELEM *tmp = new TELEM[newmemLen];
+	BitLen = newSize;
+	
+	for (size_t i = 0; i < MemLen && i< newmemLen; i++)
+	{
+		tmp[i] = this->pMem[i];
+	}
+	
+	delete[] pMem;
+	pMem = tmp;
+	MemLen = newmemLen;
+	return *this;
 }
 
 istream &operator >> (istream &istr, TBitField &bf) 

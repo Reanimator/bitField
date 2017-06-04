@@ -6,7 +6,7 @@
 // Множество - реализация через битовые поля
 
 #include "tset.h"
-#include <time>
+#include <time.h>
 
 TSet::TSet(unsigned int mp) : BitField(mp), MaxPower(mp)
 {
@@ -59,7 +59,7 @@ void TSet::writeTime()
 		BitField.resize(MaxPower);
 	}
 	
-	BitField.set(delta);
+	BitField.SetBit(delta);
 
 }
 
